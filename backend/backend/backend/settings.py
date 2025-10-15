@@ -46,6 +46,11 @@ INSTALLED_APPS = [
 
     # 💥 Your new authentication app
     'authentication',
+    'products',
+    'cart',
+    'orders',
+    'payments',
+    'profile',
 ]
 
 CORS_ALLOWED_ORIGINS = [

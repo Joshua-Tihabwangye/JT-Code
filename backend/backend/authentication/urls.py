@@ -1,10 +1,17 @@
 # authentication/urls.py
 
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .views import SignupView, LoginView, LogoutView, UserUpdateView, PasswordResetRequestView, PasswordResetConfirmView
 from authentication import views
 
 urlpatterns = [
+
+    # 💥 THIS IS THE KEY ENDPOINT FOR GETTING BOTH TOKENS 💥
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    
+
+
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
