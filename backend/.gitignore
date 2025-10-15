@@ -1,0 +1,21 @@
+#Python
+_pycache_/
+*.py[cod]
+*.sqlite3
+
+#Virtual environments
+venv/
+ .venv
+
+#Django
+db.sqlite3
+
+#Vscode
+.vscode/
+
+#Environment Variables
+.env
+
+# Virtual envs
+.venv/
+venv/
