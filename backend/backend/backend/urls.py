@@ -28,6 +28,9 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 
-    # Your authentication app endpoints
+    # authentication app endpoints
     path('api/auth/', include('authentication.urls')),
+
+     # product app endpoints
+    path('api/products/', include('products.urls')),
 ]
