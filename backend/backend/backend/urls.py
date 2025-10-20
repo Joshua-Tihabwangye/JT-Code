@@ -31,6 +31,9 @@ urlpatterns = [
     # authentication app endpoints
     path('api/auth/', include('authentication.urls')),
 
-     # product app endpoints
+    # product app endpoints
     path('api/products/', include('products.urls')),
+    
+    # cart app endpoints
+    path('api/cart/', include('cart.urls')),
 ]

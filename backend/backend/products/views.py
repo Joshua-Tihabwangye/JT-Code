@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from .models import Product
 from .serializers import UpdateProductSerializer, CreateProductSerializer
+#from rest_framework.response import Response
+#from rest_framework import status
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -11,6 +13,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     queryset = Product.objects.all()
 
+    #Set the default serializer
+    serializer_class = CreateProductSerializer
 
     # 1. Correct method for handling Permissions
     def get_permissions(self):
