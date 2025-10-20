@@ -48,7 +48,7 @@ class Product(models.Model):
             # 2. Check for existence and increment if necessary
             i = 1
             
-            while CreateProduct.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            while Product.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
                 # If a duplicate exists, append a number, e.g., 'new-product-1'
                 self.slug = f'{base_slug}-{i}'
                 i += 1
