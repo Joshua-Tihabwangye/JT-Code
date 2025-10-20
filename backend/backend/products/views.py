@@ -1,68 +1,35 @@
 from rest_framework import viewsets
 from rest_framework import permissions
-from .models import CreateProduct
-from .models import UpdateProduct
-from .serializers import UpdateProductSerializer
-from .serializers import CreateProductSerializer
+from .models import Product
+from .serializers import UpdateProductSerializer, CreateProductSerializer
 
 
-class CreateProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(viewsets.ModelViewSet):
     """
-    A ViewSet for creating new products. Only accessible to authenticated users.
+    A unified ViewSet for CRUD operations on Product.
     """
     
-    queryset = CreateProduct.objects.all()
-
-    serializer_class = CreateProductSerializer
-
-    #Only authenticated users can create products
-    permission_classes = [permissions.IsAuthenticated]
-
-    http_method_names = ['post', 'head', 'options']  # Limit to POST requests only
-
-    def perform_create(self, serializer):
-        """
-        Save the new product instance.
-        """
-        serializer.save() 
+    queryset = Product.objects.all()
 
 
-class UpdateProductViewSet(viewsets.ModelViewSet):
-    """
-    A ViewSet for updating existing products. Only accessible to authenticated users.
-    """
-    
-    queryset = CreateProduct.objects.all()
+    # 1. Correct method for handling Permissions
+    def get_permissions(self):
+        # CRUD operations (create, update, delete) require authentication
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            # Must return a list of permission instances
+            return [permissions.AllowAny()]  # Change to IsAuthenticated() in production
+        
+        # Read operations (list, retrieve) have no specific permission check (allows all)
+        return [] 
 
-    serializer_class = UpdateProductSerializer
+    # 2. Correct method for handling Serializers
+    def get_serializer_class(self):
+        # Use the Update serializer for PUT/PATCH requests
+        if self.action in ['update', 'partial_update']:
+            return UpdateProductSerializer
+        
+        # Use the Create serializer for POST requests
+        if self.action == 'create':
+            return CreateProductSerializer
 
-    #Only authenticated users can update products
-    permission_classes = [permissions.IsAuthenticated]
-
-    http_method_names = ['put', 'patch', 'head', 'options']  # Limit to PUT and PATCH requests only
-
-    def perform_update(self, serializer):
-        """
-        Update the product instance.
-        """
-        serializer.save()
-
-"""class DeleteProductViewSet(viewsets.ModelViewSet):
-    """
-    A ViewSet for deleting products. Only accessible to authenticated users.
-    """
-    
-    queryset = CreateProduct.objects.all()
-
-    serializer_class = DeleteProductSerializer
-
-    #Only authenticated users can delete products
-    permission_classes = [permissions.IsAuthenticated]
-
-    http_method_names = ['delete', 'head', 'options']  # Limit to DELETE requests only
-
-    def perform_destroy(self, instance):
-        """
-        Delete the product instance.
-        """
-        instance.delete()
+        return self.serializer_class
