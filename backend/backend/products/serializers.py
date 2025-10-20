@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import CreateProduct
-from .models import UpdateProduct
-#from .models import DeleteProduct
+from .models import Product
+
+
 
 class CreateProductSerializer(serializers.ModelSerializer):
     """
@@ -14,7 +14,7 @@ class CreateProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         # The model that the serializer should use
-        model = CreateProduct
+        model = Product
         # The fields that should be exposed in the API
         fields = (
             'id', 
@@ -45,13 +45,12 @@ class UpdateProductSerializer(serializers.ModelSerializer):
     """
     
     class Meta:
-        model = CreateProduct
+        model = Product
         fields = (
             'name', 
             'description', 
             'price', 
             'stock', 
-            'available'
         )
         read_only_fields = ('slug', 'created_at', 'updated_at')
 
@@ -62,14 +61,3 @@ class UpdateProductSerializer(serializers.ModelSerializer):
             if value < 0:
                 raise serializers.ValidationError("Price must be a non-negative value.")
             return f"Ugx-{value:.2f}"
-
-
-"""class DeleteProductSerializer(serializers.ModelSerializer):
-    """
-    Serializer for deleting products.
-    Only requires the ID of the product to be deleted.
-    """
-    
-    class Meta:
-        model = CreateProduct
-        fields = ('id',)    

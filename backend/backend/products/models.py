@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
-class CreateProduct(models.Model):
+class Product(models.Model):
     # Core Fields
     name = models.CharField(max_length=200, db_index=True)
     
@@ -55,27 +55,3 @@ class CreateProduct(models.Model):
                 
         # Call the original save method to commit to the database
         super().save(*args, **kwargs)
-
-
-class UpdateProduct(models.Model):
-    # Core Fields
-    name = models.CharField(max_length=200, db_index=True)
-    description = models.TextField(blank=True)
-    
-    # Financial/Stock Fields
-    price = models.DecimalField(max_digits=10, decimal_places=2) 
-    stock = models.PositiveIntegerField()
-    available = models.BooleanField(default=True)
-    
-    # Audit Fields
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ('name',)
-        verbose_name = 'update_product'
-        verbose_name_plural = 'update_products'
-
-    def __str__(self):
-        return self.name
-
